@@ -1,0 +1,17 @@
+flowchart TD
+    subgraph Input Source
+        A["Raw Data (e.g. Word Object)"] --> B["Pre-processing"]
+    end
+
+    subgraph Vectorization Process
+        B -- "Extract Text Field (Name + Desc)" --> C["Text Chunking (if needed)"]
+        C --> D["Mastra Embedding Tool"]
+        D -- "API Call" --> E["Embedding Model (Gemini/OpenAI)"]
+        E -- "Return Float Array [0.1, -0.2...]" --> F["Vector Data"]
+    end
+
+    subgraph Storage Integration
+        F --> G["Combine: Vector + Original Metadata"]
+        G --> H["Mastra MongoDBVector.upsert()"]
+        H --> I["MongoDB Atlas (Vector Index)"]
+    end

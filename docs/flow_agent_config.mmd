@@ -1,0 +1,14 @@
+flowchart TD
+    A["Define Agent Config"] --> B{"Choose Components"}
+    B --> C["Instructions / System Prompt"]
+    B --> D["Tools (RAG / Game Logic)"]
+    B --> E["Memory (MongoDBStore)"]
+    
+    subgraph Persona Logic
+        C --> C1["Rule 1: Guessing Game Expert"]
+        C --> C2["Rule 2: Detect Off-topic"]
+        C --> C3["Rule 3: Rude Response if violation"]
+    end
+    
+    C & D & E --> F["Instantiate Mastra Agent"]
+    F --> G["Expose via API/Server"]

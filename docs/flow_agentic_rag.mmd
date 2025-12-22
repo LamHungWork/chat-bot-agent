@@ -1,0 +1,17 @@
+flowchart TD
+    A["User Input: 'có 4 chân'"] --> B["Vector Search (Max 1 Loop)"]
+    B --> C["Result: [Ghế (0.8), Bàn (0.8), Chó (0.85)]"]
+    
+    C --> D{"Evaluate Confidence"}
+    
+    D -- "One clear winner (>0.9)" --> E["Guess: 'Là con chó đúng không?'"]
+    
+    D -- "Multiple/Ambiguous Candidates" --> F["Strategy: Clarification"]
+    
+    subgraph Ambiguity Handler
+        F --> G["Analyze Differences (Living vs Object?)"]
+        G --> H["Ask Question: 'Nó là đồ vật hả?'"]
+    end
+    
+    H --> I["User Answers"]
+    I --> B

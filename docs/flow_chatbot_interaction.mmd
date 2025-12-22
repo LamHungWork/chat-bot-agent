@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant User
+    participant Agent
+    participant Ingest as Data Pipeline (Vectorization)
+    participant DB as MongoDB (Memory/Vector)
+    
+    User->>Agent: Send Message (Request)
+    
+    rect rgb(255, 200, 200)
+        Note right of Agent: Evaluation Phase
+    end
+    
+    Agent->>Agent: Analyze Intent
+    
+    alt In-Scope Capability (Game/Weather)
+        Agent->>Agent: Reset Strikes = 0 (Cool down)
+        Agent-->>User: Handle Request Normally...
+        
+    else Intent: Learning / Add Data (Admin)
+        Agent->>Ingest: Ingest Data Flow
+        Agent-->>User: "Learned successfully."
+        
+    else Out-of-Scope (Strike++)
+        Agent->>Agent: Increment Strikes (+1)
+        
+        alt Strikes == 1
+            Agent-->>User: "Xin lỗi, tính năng này nằm ngoài khả năng của tôi." (Factual/Polite)
+        else Strikes == 2
+            Agent-->>User: "Tôi đã nói là tôi không biết làm việc đó." (Annoyed)
+        else Strikes >= 3
+            Agent-->>User: "Biến đi! Hỏi dai thế?" (Rude/Toxic)
+        end
+    end

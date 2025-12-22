@@ -1,0 +1,13 @@
+flowchart TD
+    A["Start: Setup MongoDB Atlas"] --> B["Create Database & Collection"]
+    B --> C["Install @mastra/mongodb"]
+    C --> D["Initialize MongoDBVector in Mastra"]
+    
+    subgraph Data Ingestion
+        E["Raw Data: Word List / Descriptions"] --> F["Chunking / Processing"]
+        F --> G["Embedding Model (e.g. Gemini/OpenAI)"]
+        G --> H["Store Vectors in MongoDB"]
+    end
+    
+    D --> H
+    H --> I["Ready for Agent Retrieval"]
